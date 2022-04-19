@@ -1,6 +1,7 @@
 let tarefas = []
 const $ = document.querySelector.bind(document)
 const btnAdd = $('[data-btnAdd]').addEventListener('click', adicionarTarefa)
+let lista = $('[ data-lista]')
 
 window.onload = () => {
     if(localStorage.getItem('tarefas') != null) {
@@ -25,15 +26,56 @@ function adicionarTarefa() {
 }
 
 function exibirTarefa() {
-    const lista = $('[ data-lista]')
     lista.innerHTML = ''
 
-  
     tarefas.map((tarefa, index) => {
         lista.innerHTML += `<li id='${index}'}>
-        <input type='checkbox' placeholder='Adicione uma tarefa..' />
+        <input type='checkbox' onclick='concluirTarefa(${index})'/>
         ${tarefa}
-        <button>Deletar</button>
+        <button onclick='deletarTarefa(${index})'>Deletar</button>
         </li>`
+
     })
+   
 }
+
+function deletarTarefa(id) {
+    tarefas.splice(id,1)
+    console.log(tarefas)
+
+    if(localStorage.getItem('tarefas') != null) {
+        localStorage.setItem('tarefas', JSON.stringify(tarefas))
+        exibirTarefa()
+    }
+}
+
+function concluirTarefa(id) {
+    if(tarefas[id].includes('<strike>')) {
+        tarefas[id] = tarefas[id].replace('<strike>', '')
+        tarefas[id] = tarefas[id].replace('</strike>', '')
+        if(localStorage.getItem('tarefas') != null) {
+            localStorage.setItem('tarefas', JSON.stringify(tarefas))
+        }
+    } else {
+        tarefas[id] = `<strike>${tarefas[id]}</strike>`
+        if(localStorage.getItem('tarefas') != null) {
+            localStorage.setItem('tarefas', JSON.stringify(tarefas))
+        }
+    }
+
+    exibirTarefa()
+}
+//em todas as funções preciso do exibir tarefas
+// e preciso atualizar os dados do storage
+//solução alternativa concluir tarefa => adicionar um checkbox javascript
+
+
+
+/*
+
+        lista.innerHTML += `<li id='${index}'}>
+        <input type='checkbox' onclick='concluirTarefa(${index})'/>
+        ${tarefa}
+        <button onclick='deletarTarefa(${index})'>Deletar</button>
+        </li>`
+*/
