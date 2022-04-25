@@ -3,6 +3,13 @@ const $ = document.querySelector.bind(document)
 const btnAdd = $('[data-btnAdd]').addEventListener('click', adicionarTarefa)
 let lista = $('[ data-lista]')
 
+const inputEditarTarefa = document.createElement('input')
+inputEditarTarefa.type = 'text'
+inputEditarTarefa.classList.add('input-editar')
+
+
+
+
 window.onload = () => {
     if(localStorage.getItem('tarefas') != null) {
         tarefas = JSON.parse(localStorage.getItem('tarefas'))
@@ -30,8 +37,10 @@ function exibirTarefa() {
     tarefas.map((tarefa, index) => {
         lista.innerHTML += `<li id='${index}' class='tarefas li'>
             <div class='container-tarefas'>
-                <input type='checkbox' onclick='concluirTarefa(${index})'/>
-                <span class='tarefas span'>${tarefa}</span>
+                <div class='container-texto'>
+                    <input type='checkbox' onclick='concluirTarefa(${index})'/>
+                    <span class='tarefas span'>${tarefa}</span>
+                </div>
                 <div class='container-btn'>
                     <button class='btn-editar' onclick='editarTarefa(${index})'>Editar</button>
                     <button onclick='deletarTarefa(${index})' class='btn-deletarTarefa'>Deletar</button>  
@@ -42,29 +51,33 @@ function exibirTarefa() {
    
 }
 
-
-
 function editarTarefa(id) {
-    const input = document.createElement('input')
-    input.type='text'
-    input.classList.add('input')
-    input.classList.add
+
     let spanTarefas = document.querySelectorAll('.span')
     const li = document.querySelectorAll('.li')
 
 
-    input.value = spanTarefas[id].innerText
+    inputEditarTarefa.value = spanTarefas[id].innerText
 
-    input.addEventListener('change', (e) => {
-         spanTarefas[id].innerText = e.target.value
-  
-        if(localStorage.getItem('tarefas') != null) {
-            localStorage.setItem('tarefas', JSON.stringify(tarefas))
-            exibirTarefa()
-        }
-    })
+    inputEditarTarefa.addEventListener('change',  (e) => armazenarTarefaEditada(e,id))
 
-    li[id].appendChild(input)
+
+    li[id].appendChild(inputEditarTarefa)
+
+}
+
+function armazenarTarefaEditada(e, id) {
+    let spanTarefas = document.querySelectorAll('.span')
+
+    spanTarefas[id].innerText = e.target.value 
+    tarefas[id] = spanTarefas[id].innerText
+
+
+    if(localStorage.getItem('tarefas') != null) {
+        localStorage.setItem('tarefas', JSON.stringify(tarefas))
+    } 
+
+    exibirTarefa()
 }
 
 function deletarTarefa(id) {
@@ -93,7 +106,3 @@ function concluirTarefa(id) {
 
     exibirTarefa()
 }
-//em todas as funções preciso do exibir tarefas
-// e preciso atualizar os dados do storage
-//solução alternativa concluir tarefa => adicionar um checkbox javascript
-
