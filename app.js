@@ -5,9 +5,7 @@ let lista = $('[ data-lista]')
 
 const inputEditarTarefa = document.createElement('input')
 inputEditarTarefa.type = 'text'
-inputEditarTarefa.classList.add('input-editar')
-
-
+inputEditarTarefa.classList.add('input-editar-tarefa')
 
 
 window.onload = () => {
@@ -16,6 +14,7 @@ window.onload = () => {
         exibirTarefa()
     }
 }
+
 
 function adicionarTarefa() {
     const input  = $('[data-input]')
@@ -55,29 +54,38 @@ function editarTarefa(id) {
 
     let spanTarefas = document.querySelectorAll('.span')
     const li = document.querySelectorAll('.li')
+    const contaiterInput = document.createElement('div')
+    const btnSalvar  = document.createElement('button')
+    const btnDescartar = document.createElement('button')
 
+    contaiterInput.classList.add('container-editar-tarefa')
+    btnSalvar.classList.add('btnSalvar')
+    btnDescartar.classList.add('btnDescartar')
 
+    btnSalvar.innerText = '✓'
+    btnDescartar.innerText = 'x'
+
+    inputEditarTarefa.name = 'input'
+    btnSalvar.name = 'btnSalvar'
+    btnDescartar.name = 'btnDescartar'
+
+    
     inputEditarTarefa.value = spanTarefas[id].innerText
+    contaiterInput.append(inputEditarTarefa)
+    contaiterInput.append(btnSalvar)
+    contaiterInput.append(btnDescartar)
+    li[id].append(contaiterInput)
 
     inputEditarTarefa.addEventListener('change',  (e) => armazenarTarefaEditada(e,id))
 
+    contaiterInput.addEventListener('click', (e) => {
 
-    li[id].appendChild(inputEditarTarefa)
-
-}
-
-function armazenarTarefaEditada(e, id) {
-    let spanTarefas = document.querySelectorAll('.span')
-
-    spanTarefas[id].innerText = e.target.value 
-    tarefas[id] = spanTarefas[id].innerText
-
-
-    if(localStorage.getItem('tarefas') != null) {
-        localStorage.setItem('tarefas', JSON.stringify(tarefas))
-    } 
-
-    exibirTarefa()
+            if(e.target.name === 'btnSalvar') {
+                atualizarSpanEditado(inputEditarTarefa ,id)
+            } else if(e.target.name === 'btnDescartar') {
+                descartarTarefaEditada(contaiterInput)
+            }
+    })
 }
 
 function deletarTarefa(id) {
@@ -105,4 +113,25 @@ function concluirTarefa(id) {
     }
 
     exibirTarefa()
+}
+
+
+
+function armazenarTarefaEditada(e, id) {
+    tarefas[id] = e.target.value
+}
+
+function atualizarSpanEditado(input,id) {
+    let spanTarefas = document.querySelectorAll('.span')
+    spanTarefas[id].innerText = input.value 
+
+    console.log(`isTrusted? ${input.isTrusted}`)
+    if(localStorage.getItem('tarefas') != null) {
+        localStorage.setItem('tarefas', JSON.stringify(tarefas))
+    } 
+
+    exibirTarefa()
+}
+function descartarTarefaEditada(containerInput) {
+    containerInput.classList.toggle('display-none')
 }

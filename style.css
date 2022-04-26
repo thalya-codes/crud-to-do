@@ -23,7 +23,7 @@ body {
 .container , .exibicaoTarefas {
     width: 47vw;
 }
-.input , .input-editar{
+.input , .input-editar-tarefa{
     border-radius: 2px;
     width: 100%;
     padding: 10px;
@@ -38,9 +38,7 @@ body {
     font-size: 1.6rem;
 
 }
-.input-editar {
-    margin-top: 30px;
-}
+
 .input::placeholder {
     color: #fff;
     font-size: 1.6rem;
@@ -110,11 +108,33 @@ button {
     margin-right: 15px;
     
 }
+.container-editar-tarefa {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+}
 .input-editar-tarefa {
     margin-top: 50px;
     font-size: 1.6rem;
+    width: 60%;
 }
-
+.btnSalvar, .btnDescartar {
+    height: 40px;
+    width: 15%;
+    font-weight: bolder;
+}
+.btnSalvar {
+    background-color: lightseagreen;
+    font-weight: bolder;
+}
+.btnDescartar {
+    background-color: lightcoral;
+}
 .tarefa-concluida {
     text-decoration: line-through;
+}
+
+.display-none {
+    display: none;
 }
