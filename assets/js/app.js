@@ -1,11 +1,17 @@
 let tarefas = []
 const $ = document.querySelector.bind(document)
 const btnAdd = $('[data-btnAdd]').addEventListener('click', adicionarTarefa)
-let lista = $('[ data-lista]')
+let lista = $('[data-lista]')
 
 const inputEditarTarefa = document.createElement('input')
 inputEditarTarefa.type = 'text'
 inputEditarTarefa.classList.add('input-editar-tarefa')
+
+
+const containerInput = document.createElement('div')
+const btnSalvar  = document.createElement('button')
+const btnDescartar = document.createElement('button')
+
 
 
 window.onload = () => {
@@ -40,9 +46,9 @@ function exibirTarefa() {
                     <input type='checkbox' onclick='concluirTarefa(${index})'/>
                     <span class='tarefas span'>${tarefa}</span>
                 </div>
-                <div class='container-btn'>
+                <div class='container-tarefas-btn'>
                     <button class='btn-editar' onclick='editarTarefa(${index})'>Editar</button>
-                    <button onclick='deletarTarefa(${index})' class='btn-deletarTarefa'>Deletar</button>  
+                    <button onclick='deletarTarefa(${index})' class='btn-deletar-tarefa'>Deletar</button>  
                 </div>
             </div>
         </li>`
@@ -51,14 +57,10 @@ function exibirTarefa() {
 }
 
 function editarTarefa(id) {
-
     let spanTarefas = document.querySelectorAll('.span')
     const li = document.querySelectorAll('.li')
-    const contaiterInput = document.createElement('div')
-    const btnSalvar  = document.createElement('button')
-    const btnDescartar = document.createElement('button')
-
-    contaiterInput.classList.add('container-editar-tarefa')
+    
+    containerInput.classList.add('container-editar-tarefa')
     btnSalvar.classList.add('btnSalvar')
     btnDescartar.classList.add('btnDescartar')
 
@@ -66,24 +68,27 @@ function editarTarefa(id) {
     btnDescartar.innerText = 'x'
 
     inputEditarTarefa.name = 'input'
-    btnSalvar.name = 'btnSalvar'
-    btnDescartar.name = 'btnDescartar'
+    btnSalvar.name = 'salvar-alteracao'
+    btnDescartar.name = 'descartar-alteracao'
 
-    
+
+    containerInput.classList.contains('display-none') && containerInput.classList.remove('display-none')
+
     inputEditarTarefa.value = spanTarefas[id].innerText
-    contaiterInput.append(inputEditarTarefa)
-    contaiterInput.append(btnSalvar)
-    contaiterInput.append(btnDescartar)
-    li[id].append(contaiterInput)
+    containerInput.append(inputEditarTarefa)
+
+    containerInput.append(btnSalvar)
+    containerInput.append(btnDescartar)
+    li[id].append(containerInput)
 
     inputEditarTarefa.addEventListener('change',  (e) => armazenarTarefaEditada(e,id))
 
-    contaiterInput.addEventListener('click', (e) => {
+    containerInput.addEventListener('click', (e) => {
 
-            if(e.target.name === 'btnSalvar') {
-                atualizarSpanEditado(inputEditarTarefa ,id)
-            } else if(e.target.name === 'btnDescartar') {
-                descartarTarefaEditada(contaiterInput)
+            if(e.target.name === 'salvar-alteracao') {
+                atualizarSpanEditado(inputEditarTarefa ,id, containerInput)
+            } else if(e.target.name === 'descartar-alteracao') {
+                descartarTarefaEditada(containerInput)
             }
     })
 }
@@ -121,11 +126,12 @@ function armazenarTarefaEditada(e, id) {
     tarefas[id] = e.target.value
 }
 
-function atualizarSpanEditado(input,id) {
+function atualizarSpanEditado(input,id,containerInput) {
     let spanTarefas = document.querySelectorAll('.span')
     spanTarefas[id].innerText = input.value 
 
-    console.log(`isTrusted? ${input.isTrusted}`)
+    containerInput.classList.remove('display-none')
+    containerInput.classList.add('display-flex')
     if(localStorage.getItem('tarefas') != null) {
         localStorage.setItem('tarefas', JSON.stringify(tarefas))
     } 
@@ -133,5 +139,6 @@ function atualizarSpanEditado(input,id) {
     exibirTarefa()
 }
 function descartarTarefaEditada(containerInput) {
-    containerInput.classList.toggle('display-none')
+    containerInput.classList.add('display-none')
 }
+//leitura: https://www.digitalocean.com/community/tutorials/how-to-use-node-js-modules-with-npm-and-package-json-pt

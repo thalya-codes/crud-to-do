@@ -15,15 +15,15 @@ body {
 
 }
 
-.container {
+.container-add-tarefas {
     display: flex;
     justify-content: center;
     margin-top: 20vh;
 }
-.container , .exibicaoTarefas {
+.container-add-tarefas , .exibirTarefas {
     width: 47vw;
 }
-.input , .input-editar-tarefa{
+.input-add-tarefa , .input-editar-tarefa{
     border-radius: 2px;
     width: 100%;
     padding: 10px;
@@ -39,17 +39,16 @@ body {
 
 }
 
-.input::placeholder {
+.input-add-tarefa ::placeholder {
     color: #fff;
     font-size: 1.6rem;
 }
-.input:focus {
+.input-add-tarefa :focus {
     border-color: rgb(210, 133, 255);
     transition: border 1s ease-in-out;  
 }
-.input, button {
+.input-add-tarefa, button {
     height: 50px;
-
 }
 button {
     color: #fff;
@@ -64,17 +63,17 @@ button {
 }
 
 
-.exibicaoTarefas {
+.exibirTarefas {
     background-color: rgba(255, 255, 255, 0.062);
     margin-top: 3rem;
     padding: 20px 30px;
 }
-.exibicaoTarefas ul {
+.exibirTarefas ul {
     list-style: none;
     display: flex;
     flex-direction: column;
 }
-.exibicaoTarefas li {
+.exibirTarefas li {
     display: flex;
     flex-direction: column;
     
@@ -83,6 +82,8 @@ button {
     margin-bottom: 30px;
     padding: 30px 0;
 }
+
+
 .container-tarefas {
     display: flex;
     justify-content: space-between;
@@ -92,17 +93,21 @@ button {
 .tarefas {
     font-size: 2rem;
 }
-.container-btn button {
+.container-tarefas-btn button {
     width: 80px;
 }
-.container-btn {
+.container-tarefas-btn {
     display: flex;
     justify-content: flex-end;
 }
-.btn-deletar{
+.btn-deletar-tarefa{
     width: 72%;
     font-size: 1.6rem;
 }
+
+
+
+
 
 .btn-editar {
     margin-right: 15px;
@@ -119,6 +124,7 @@ button {
     font-size: 1.6rem;
     width: 60%;
 }
+
 .btnSalvar, .btnDescartar {
     height: 40px;
     width: 15%;
@@ -137,4 +143,8 @@ button {
 
 .display-none {
     display: none;
+}
+
+.display-flex {
+    display: flex;
 }
