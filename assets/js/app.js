@@ -99,8 +99,8 @@ function deletarTarefa(id) {
 
     if(localStorage.getItem('tarefas') != null) {
         localStorage.setItem('tarefas', JSON.stringify(tarefas))
-        exibirTarefa()
     }
+    exibirTarefa()
 }
 
 function concluirTarefa(id) {
